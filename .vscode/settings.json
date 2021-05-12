@@ -1,0 +1,16 @@
+{
+    "files.associations": {
+        "cctype": "cpp",
+        "cmath": "cpp",
+        "cstdarg": "cpp",
+        "cstdio": "cpp",
+        "cstdlib": "cpp",
+        "cwchar": "cpp",
+        "type_traits": "cpp",
+        "limits": "cpp",
+        "*.tcc": "cpp",
+        "cinttypes": "cpp",
+        "cstdint": "cpp",
+        "typeinfo": "cpp"
+    }
+}
