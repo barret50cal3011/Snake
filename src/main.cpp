@@ -1,6 +1,8 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 
+#include "include/Game.hpp"
+
 int main(int argc, char* argv[])
 {
     if(SDL_Init(SDL_INIT_VIDEO) != 0)
@@ -16,19 +18,15 @@ int main(int argc, char* argv[])
         return 2;
     }
 
-    char runnning = 1;
+    Game* game = new Game();
+    game->init(window);
 
+    char runnning = 1;
     while(runnning)
     {
-        SDL_Event evt;
-        SDL_PollEvent(&evt);
-
-        switch (evt.type)
-        {
-        case SDL_QUIT:
-            runnning = false;
-            break;
-        }
+        runnning = game->handleEvents();
+        game->update();
+        game->render();
     }
 
     return 0;
