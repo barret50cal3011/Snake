@@ -3,6 +3,8 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
+#include "Snake.hpp"
+
 struct Game
 {
     void init(SDL_Window* window);
@@ -11,5 +13,5 @@ struct Game
     void render();
 
     static SDL_Renderer* renderer;
-    static SDL_Texture* head;
+    Snake* snake;
 };

@@ -10,7 +10,7 @@ int main(int argc, char* argv[])
         std::cout << "error initialising SDL" << std::endl;
         return 1;
     }
-        
+
     SDL_Window* window = SDL_CreateWindow("Snake", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 800, 0);
     if(!window)
     {
