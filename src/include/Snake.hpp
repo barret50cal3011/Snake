@@ -9,6 +9,7 @@ struct Snake
 {
     int x, y;
     int dirX, dirY;
+    int size;
     SDL_Texture* head;
     SDL_Rect src;
     Body* body;
@@ -19,4 +20,7 @@ struct Snake
 
     void update();
     void render();
+
+    void queue();
+    void dequeue();
 };

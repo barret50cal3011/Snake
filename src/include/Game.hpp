@@ -12,6 +12,7 @@ struct Game
     bool handleEvents();
     void update();
     void render();
+    void death();
 
     static SDL_Renderer* renderer;
     Snake* snake;

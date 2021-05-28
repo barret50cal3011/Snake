@@ -8,6 +8,8 @@ Snake::Snake(int p_x, int p_y, const char* image)
     x = p_x;
     y = p_y;
 
+    size = 1;
+
     src.w = 10;
     src.h = 10;
 
@@ -16,36 +18,41 @@ Snake::Snake(int p_x, int p_y, const char* image)
         std::cout << "faild to load texture" << std::endl;
 
     body = new Body();
+    tail = body;
 }
 
 void Snake::update()
 {
-    body->x = x;
-    body->y = y;
+    queue();
 
     x += dirX;
     y += dirY;
 
-    //sets the rectangle to retreeve the image of the head needed
+    //set the rectangle position to retrive the image of the head needed from the png
     if(!dirX && dirY == 1)
     {
         src.x = 0;
         src.y = 0;
     }
-    if(!dirX && dirY == -1)
+    else if(!dirX && dirY == -1)
     {
         src.x = 10;
         src.y = 10;
     }
-    if(!dirY && dirX == -1)
+    else if(!dirY && dirX == -1)
     {
         src.x = 10;
         src.y = 0;
     }
-    if(!dirY && dirX == 1)
+    else if(!dirY && dirX == 1)
     {
         src.x = 0;
         src.y = 10;
+    }
+    else
+    {
+        src.x = 0;
+        src.y = 0;
     }
 }
 
@@ -61,6 +68,7 @@ void Snake::render()
 
     SDL_RenderCopy(Game::renderer, head, &src, &dst);
 
+    //creates the neck conecting the body
     SDL_Rect neck;
     if(dirX == 1)
     {
@@ -92,4 +100,33 @@ void Snake::render()
     }
 
     SDL_RenderFillRect(Game::renderer, &neck);
+}
+
+//the implementation to make the body move with the snake goes as follows:
+//
+void Snake::queue()
+{
+    Body *temp = new Body();
+
+    temp->x = x;
+    temp->y = y;
+
+    if(body != NULL)
+    {
+        body->previous = temp;
+        temp->next = body;
+    }
+
+    body = temp;
+}
+
+void Snake::dequeue()
+{
+    if(tail->previous != NULL)
+    {
+        tail = tail->previous;
+        Body* temp = tail->next;
+        tail->next = NULL;
+        delete temp;
+    }
 }

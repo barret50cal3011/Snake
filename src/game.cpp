@@ -10,7 +10,7 @@ SDL_Renderer* Game::renderer = NULL;
 void Game::init(SDL_Window* window)
 {
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-    snake = new Snake(10, 3, "res/Snake_Head.png");
+    snake = new Snake(10, 10, "res/Snake_Head.png");
     snake->dirX = 0;
     snake->dirY = 0;
     food = new Food(10, 9);
@@ -32,18 +32,15 @@ bool Game::handleEvents()
 
             if(code == SDL_SCANCODE_W)
             {
-                std::cout << "w" << std::endl;
                 if(!snake->dirY)
                 {
                     snake->dirY = -1;
                     snake->dirX = 0;
                 }
-                
             }
 
             if(code == SDL_SCANCODE_S)
             {
-                std::cout << "s" << std::endl;
                 if(!snake->dirY)
                 {
                     snake->dirY = 1;
@@ -54,7 +51,6 @@ bool Game::handleEvents()
                 
             if(code == SDL_SCANCODE_A)
             {
-                std::cout << "a" << std::endl;
                 if(!snake->dirX)
                 {
                     snake->dirY = 0;
@@ -64,7 +60,6 @@ bool Game::handleEvents()
 
             if(code == SDL_SCANCODE_D)
             {
-                std::cout << "d" << std::endl;
                 if(!snake->dirX)
                 {
                     snake->dirY = 0;
@@ -82,11 +77,28 @@ void Game::update()
     snake->update();
     if(snake->x == food->posX && snake->y == food->posY)
     {
+        snake->size++;
+
         srand((unsigned int)time(NULL));
         int x = rand() % 20;
         int y = rand() % 20;
 
         food = new Food(x, y);
+    }
+    else 
+        snake->dequeue();
+
+    //look for cases of IMENET DEATH
+    if(!(snake->x > -1 && snake->x < 20))
+        death();
+
+    if(!(snake->y > -1 && snake->y < 20))
+        death();
+
+    for(Body *b = snake->body; b != NULL; b = b->next)
+    {
+        if(snake->x == b->x && snake->y == b->y && snake->size > 2)
+            death();
     }
 }
 
@@ -98,4 +110,15 @@ void Game::render()
     food->render();
 
     SDL_RenderPresent(renderer);
+}
+
+void Game::death()
+{
+    snake = new Snake(10, 10, "res/Snake_Head.png");
+
+    srand((unsigned int)time(NULL));
+    int x = rand() % 20;
+    int y = rand() % 20;
+
+    food = new Food(x, y);
 }
