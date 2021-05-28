@@ -21,15 +21,16 @@ int main(int argc, char* argv[])
     Game* game = new Game();
     game->init(window);
 
-    const int FPS = 60;
+    const int FPS = 2;
     const int frameDel = 1000/FPS;
 
     Uint32 frameStart;
     int frameTime;
 
-    char runnning = 1;
+    bool runnning = true;
     while(runnning)
     {
+        
         frameStart = SDL_GetTicks();
 
         runnning = game->handleEvents();
@@ -37,9 +38,10 @@ int main(int argc, char* argv[])
         game->render();
 
         frameTime = SDL_GetTicks() - frameStart;
-
+          
         if(frameDel > frameTime)
-            SDL_Delay(frameDel - frameStart);
+            SDL_Delay(frameDel - frameTime);
+            
     }
 
     return 0;

@@ -4,6 +4,7 @@
 #include <SDL2/SDL_image.h>
 
 #include "Snake.hpp"
+#include "Food.hpp"
 
 struct Game
 {
@@ -14,4 +15,5 @@ struct Game
 
     static SDL_Renderer* renderer;
     Snake* snake;
+    Food* food;
 };
