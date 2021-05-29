@@ -80,8 +80,26 @@ void Game::update()
         snake->size++;
 
         srand((unsigned int)time(NULL));
-        int x = rand() % 20;
-        int y = rand() % 20;
+        int position = rand() % (400 - snake->size);
+        int x = 0;
+        int y = 0;
+
+        for(; position != 0; position--)
+        {
+            x++;
+
+            for(Body* b = snake->body; b != NULL; b = b->next)
+            {
+                if(b->x == x && b->y == y)
+                    x++;
+            }
+
+            if(x >= 20)
+            {
+                x -= 20;
+                y++;
+            }
+        }
 
         food = new Food(x, y);
     }
